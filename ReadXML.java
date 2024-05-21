@@ -1,11 +1,13 @@
 import java.util.Scanner;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.json.JSONObject;
+import org.xml.sax.helpers.*;
+import javax.xml.parsers.*;
+
 
 
 public class ReadXML {
@@ -33,18 +35,26 @@ public class ReadXML {
             for (String field : fields) {
                 field = field.trim();
                 if (field.equalsIgnoreCase("name")||field.equalsIgnoreCase("postalZip")||field.equalsIgnoreCase("region")||field.equalsIgnoreCase("country")||field.equalsIgnoreCase("address")||field.equalsIgnoreCase("list")){
-                    for (int i = 0; i < nodeList.getLength(); i++) {
-                        Node node = nodeList.item(i);
+                   // for (int i = 0; i < nodeList.getLength(); i++) {
+                     //   Node node = nodeList.item(i);
 
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-                    JSONObject json = new JSONObject();
+           // if (node.getNodeType() == Node.ELEMENT_NODE) {
+                //    Element element = (Element) node;
+                 //   JSONObject json = new JSONObject();
 
                    
-                        json.put(field, element.getElementsByTagName(field).item(0).getTextContent());
+                       // json.put(field, element.getElementsByTagName(field).item(0).getTextContent());
                         // Print JSON object
-                        System.out.println(json.toString(4));
-                    }}}else{
+                      //  System.out.println(json.toString(4));
+                      // Create a SAX XMLReader
+            // Create a SAXParserFactory
+            SAXParserFactory factory = SAXParserFactory.newInstance();
+            SAXParser saxParser = factory.newSAXParser();
+            SAXHandler handler = new SAXHandler(fields);
+
+            // Parse the XML file
+            saxParser.parse("data.xml", handler);
+                    }else{
                         System.out.println("Invalid Field");
                     }
                     
