@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.w3c.dom.Document;
@@ -8,6 +9,13 @@ import org.w3c.dom.NodeList;
 public class ReadXML {
     public static void main(String[] args) {
         try {
+            // Setup scanner for user input
+            Scanner scanner = new Scanner(System.in);
+
+            // Get user input for fields
+            System.out.println("Enter the fields to display (comma-separated, e.g., name,postalZip): ");
+            String input = scanner.nextLine();
+            String[] fields = input.split(",");
             // Create a DocumentBuilderFactory
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             // Create a DocumentBuilder
@@ -25,16 +33,16 @@ public class ReadXML {
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
 
-                    // Print out the field values
-                    System.out.println("Name: " + element.getElementsByTagName("name").item(0).getTextContent());
-                    System.out.println("Postal Zip: " + element.getElementsByTagName("postalZip").item(0).getTextContent());
-                    System.out.println("Region: " + element.getElementsByTagName("region").item(0).getTextContent());
-                    System.out.println("Country: " + element.getElementsByTagName("country").item(0).getTextContent());
-                    System.out.println("Address: " + element.getElementsByTagName("address").item(0).getTextContent());
-                    System.out.println("List: " + element.getElementsByTagName("list").item(0).getTextContent());
-                    System.out.println();
+                   // Print out user-selected field values
+                   for (String field : fields) {
+                    field = field.trim();
+                    System.out.println(field.substring(0, 1).toUpperCase() + field.substring(1) + ": " +
+                            element.getElementsByTagName(field).item(0).getTextContent());
+                }
+                System.out.println();
                 }
             }
+            scanner.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
