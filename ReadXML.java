@@ -5,6 +5,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.json.JSONObject;
+
 
 public class ReadXML {
     public static void main(String[] args) {
@@ -32,12 +34,19 @@ public class ReadXML {
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
+                    JSONObject json = new JSONObject();
 
                    // Print out user-selected field values
                    for (String field : fields) {
                     field = field.trim();
-                    System.out.println(field.substring(0, 1).toUpperCase() + field.substring(1) + ": " +
-                            element.getElementsByTagName(field).item(0).getTextContent());
+                   
+                        json.put(field, element.getElementsByTagName(field).item(0).getTextContent());
+
+                    // Print JSON object
+                    System.out.println(json.toString(4));
+                    //previous non-JSON code
+                    //System.out.println(field.substring(0, 1).toUpperCase() + field.substring(1) + ": " +
+                            //element.getElementsByTagName(field).item(0).getTextContent());
                 }
                 System.out.println();
                 }
