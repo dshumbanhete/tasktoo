@@ -29,30 +29,35 @@ public class ReadXML {
             NodeList nodeList = document.getElementsByTagName("record");
 
             // Loop through each record node
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node node = nodeList.item(i);
+            // Print out user-selected field values
+            for (String field : fields) {
+                field = field.trim();
+                if (field.equalsIgnoreCase("name")||field.equalsIgnoreCase("postalZip")||field.equalsIgnoreCase("region")||field.equalsIgnoreCase("country")||field.equalsIgnoreCase("address")||field.equalsIgnoreCase("list")){
+                    for (int i = 0; i < nodeList.getLength(); i++) {
+                        Node node = nodeList.item(i);
 
-                if (node.getNodeType() == Node.ELEMENT_NODE) {
+            if (node.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) node;
                     JSONObject json = new JSONObject();
 
-                   // Print out user-selected field values
-                   for (String field : fields) {
-                    field = field.trim();
                    
                         json.put(field, element.getElementsByTagName(field).item(0).getTextContent());
-
-                    // Print JSON object
-                    System.out.println(json.toString(4));
+                        // Print JSON object
+                        System.out.println(json.toString(4));
+                    }}}else{
+                        System.out.println("Invalid Field");
+                        break;
+                    }
+                    
                     //previous non-JSON code
                     //System.out.println(field.substring(0, 1).toUpperCase() + field.substring(1) + ": " +
                             //element.getElementsByTagName(field).item(0).getTextContent());
                 }
-                System.out.println();
+                scanner.close();
                 }
-            }
-            scanner.close();
-        } catch (Exception e) {
+            
+            
+         catch (Exception e) {
             e.printStackTrace();
         }
     }
