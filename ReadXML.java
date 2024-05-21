@@ -46,7 +46,6 @@ public class ReadXML {
                         System.out.println(json.toString(4));
                     }}}else{
                         System.out.println("Invalid Field");
-                        break;
                     }
                     
                     //previous non-JSON code
